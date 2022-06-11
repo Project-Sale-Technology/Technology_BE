@@ -20,11 +20,12 @@ public class User {
     private LocalDate updateAt;
     private String password;
 
-    @ManyToMany(mappedBy = "users" , fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonBackReference
     private Set<Role> roles;
 
     @ManyToOne
-    @JoinColumn(name = "province_id" , nullable = false)
+    @JoinColumn(name = "province_id" , nullable = true)
     private Province province;
 
     @OneToMany(mappedBy = "user")

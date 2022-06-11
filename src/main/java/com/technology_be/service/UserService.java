@@ -19,6 +19,11 @@ public class UserService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
+    /* Save User */
+    public User saveUser(User user) {
+        return this.userRepository.save(user);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);

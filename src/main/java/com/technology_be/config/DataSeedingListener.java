@@ -26,23 +26,21 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        /* Admin */
-        if (roleRepository.findByName("ROLE_ADMIN") == null) {
+        if (roleRepository.findByName("ROLE_ADMIN")==null){
             roleRepository.save(new Role("ROLE_ADMIN"));
         }
 
-        /* Member */
-        if (roleRepository.findByName("ROLE_MEMBER") == null) {
+        if (roleRepository.findByName("ROLE_MEMBER")==null){
             roleRepository.save(new Role("ROLE_MEMBER"));
         }
 
         /* Block */
-        if (roleRepository.findByName("ROLE_BLOCK") == null) {
+        if (roleRepository.findByName("ROLE_BLOCK")==null){
             roleRepository.save(new Role("ROLE_BLOCK"));
         }
 
         /* Add admin */
-        if (userRepository.findByEmail("admin@gmail.com") == null) {
+        if (userRepository.findByEmail("admin@gmail.com") == null){
             User admin = new User();
             admin.setEmail("admin@gmail.com");
             admin.setPassword(EncrypPasswordUtils.EncrypPasswordUtils("123456"));
@@ -54,7 +52,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         }
 
         /* Add member */
-        if (userRepository.findByEmail("nguyenhanhtuan1206@gmail.com") == null) {
+        if (userRepository.findByEmail("nguyenhanhtuan1206@gmail.com") == null){
             User user = new User();
             user.setEmail("nguyenhanhtuan1206@gmail.com");
             user.setPassword(EncrypPasswordUtils.EncrypPasswordUtils("123456"));

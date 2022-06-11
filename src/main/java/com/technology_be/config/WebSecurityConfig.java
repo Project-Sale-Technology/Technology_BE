@@ -77,8 +77,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/login", "/register").permitAll()
-                .antMatchers("/","/home/**").hasAnyRole("ADMIN" ,"MEMBER")
+                .authorizeRequests().antMatchers("/home/**","/login", "/register").permitAll()
+//                .antMatchers("/","/home/**").hasAnyRole("ADMIN" ,"MEMBER")
                 //cấu hình cho đường dẫn admin, chỉ có Role admin mới vào được
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 // all other requests need to be authenticated

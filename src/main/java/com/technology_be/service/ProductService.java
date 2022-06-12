@@ -13,7 +13,17 @@ public class ProductService {
     private ProductRepository productRepository;
 
     /* Find all */
-    public List<Product> getAllProducts() {
-        return this.productRepository.findAll();
+    public List<Product> getAllProducts(int currentPage , int sizePage) {
+        return this.productRepository.getProducts(currentPage , sizePage);
+    }
+
+    /* Get products by category id*/
+    public List<Product> getProductByCategoryId(Long id , int currentPage, int sizePage) {
+        return this.productRepository.getProductsByCategoryId(id , currentPage , sizePage);
+    }
+
+    /* Get Amount of products */
+    public int getAmountOfProducts() {
+        return this.productRepository.getAmountOfProducts();
     }
 }

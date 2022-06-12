@@ -7,14 +7,13 @@ import com.technology_be.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/home")
+@CrossOrigin("http://localhost:4200/")
 public class ProductController {
 
     @Autowired
@@ -24,10 +23,11 @@ public class ProductController {
     private CategoryService categoryService;
 
     /* Get all products */
-    @RequestMapping(value = "/products" , method = RequestMethod.GET)
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
-        if(products.size() == 0) {
+    @RequestMapping(value = "/products/{currentPage}&{sizePage}" , method = RequestMethod.GET)
+    public ResponseEntity<List<Product>> getAllProducts(@PathVariable("currentPage") int currentPage ,
+                                                        @PathVariable("sizePage") int sizePage) {
+        List<Product> products = productService.getAllProducts(currentPage , sizePage);
+        if(products.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(products , HttpStatus.OK);
@@ -37,9 +37,27 @@ public class ProductController {
     @RequestMapping(value = "/category" , method = RequestMethod.GET)
     public ResponseEntity<List<Category>> getCategories() {
         List<Category> categories = categoryService.getCategories();
-        if(categories.size() == 0) {
+        if(categories.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(categories , HttpStatus.OK);
+    }
+
+    /* Get products by category */
+    @RequestMapping(value = "/products/category={categoryId}/{currentPage}&{sizePage}")
+    public ResponseEntity<List<Product>> getProductsByCategoryId(@PathVariable("categoryId") Long categoryId
+    , @PathVariable("sizePage") int sizePage , @PathVariable("currentPage") int currentPage) {
+        List<Product> products = productService.getProductByCategoryId(categoryId , currentPage , sizePage);
+        System.out.println(products.size());
+        if(products.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(products , HttpStatus.OK);
+    }
+
+    /* Get amount of products*/
+    @RequestMapping(value = "/products/amount")
+    public ResponseEntity<Integer> getAmountOfProducts() {
+        return new ResponseEntity<>(productService.getAmountOfProducts() , HttpStatus.OK);
     }
 }

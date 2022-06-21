@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/home")
-@CrossOrigin("http://localhost:4200/")
+@CrossOrigin(origins = "*")
 public class ProductController {
 
     @Autowired
@@ -23,10 +23,9 @@ public class ProductController {
     private CategoryService categoryService;
 
     /* Get all products */
-    @RequestMapping(value = "/products/{currentPage}&{sizePage}" , method = RequestMethod.GET)
-    public ResponseEntity<List<Product>> getAllProducts(@PathVariable("currentPage") int currentPage ,
-                                                        @PathVariable("sizePage") int sizePage) {
-        List<Product> products = productService.getAllProducts(currentPage , sizePage);
+    @RequestMapping(value = "/products" , method = RequestMethod.GET)
+    public ResponseEntity<List<Product>> getAllProducts() {
+        List<Product> products = productService.getAllProducts();
         if(products.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -55,9 +54,14 @@ public class ProductController {
         return new ResponseEntity<>(products , HttpStatus.OK);
     }
 
-    /* Get amount of products*/
-    @RequestMapping(value = "/products/amount")
-    public ResponseEntity<Integer> getAmountOfProducts() {
-        return new ResponseEntity<>(productService.getAmountOfProducts() , HttpStatus.OK);
+    /* Get product by name and category id */
+    @RequestMapping(value = "/products/search/name={productName}&category={categoryId}" , method = RequestMethod.GET)
+    public ResponseEntity<List<Product>> getProductByNameAndCategoryId(@PathVariable("productName") String productName
+    ,@PathVariable("categoryId") Long categoryId) {
+        List<Product> result = productService.getProductsByNameAndCategoryId(productName , categoryId);
+        if(result.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(result , HttpStatus.OK);
     }
 }

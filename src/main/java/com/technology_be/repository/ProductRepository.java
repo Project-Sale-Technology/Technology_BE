@@ -20,4 +20,8 @@ public interface ProductRepository extends JpaRepository<Product , Long> {
     /* select quantity available in products */
     @Query(value = "select count(product.id) from product" , nativeQuery = true)
     int getAmountOfProducts();
+
+    /* Get product by name and category id */
+    @Query(value = "select * from product where product.`name` like concat('%', ?1 ,'%') and product.category_id = ?2" , nativeQuery=true)
+    List<Product> getProductsByNameAndCategoryId(String name , Long categoryId);
 }

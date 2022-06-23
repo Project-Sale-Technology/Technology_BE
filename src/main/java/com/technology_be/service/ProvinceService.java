@@ -12,9 +12,9 @@ public class ProvinceService {
     @Autowired
     private ProvinceRepository provinceRepository;
 
-//    public List<Province> findAll() {
-//        return this.provinceRepository.findAll();
-//    }
+    public List<Province> findAll() {
+        return this.provinceRepository.findAll();
+    }
 
     public Province getProvinceById(Long id) {
         return this.provinceRepository.findById(id).orElse(null);

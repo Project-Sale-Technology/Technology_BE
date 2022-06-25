@@ -34,6 +34,20 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    /* Login */
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ResponseEntity<User> handleLogin(@RequestParam(value = "email", required = false) String email, @RequestParam("password") String password) {
+        /* Get user by email and password */
+        System.out.println(email);
+        System.out.println(password);
+        User user = userService.getUserByEmailAndPassword(email , password);
+        if(user == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(user , HttpStatus.OK);
+    }
+
+    /* Register */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<UserRegisterDTO> handleRegister(@Valid @RequestBody UserRegisterDTO userRegisterDTO
             , BindingResult bindingResult) {
@@ -62,7 +76,7 @@ public class LoginController {
                 Role role = roleRepository.findByName("ROLE_MEMBER");
                 roles.add(role);
                 user.setRoles(roles);
-    
+
                 /* Save user */
                 userService.saveUser(user);
                 return new ResponseEntity<>(HttpStatus.OK);

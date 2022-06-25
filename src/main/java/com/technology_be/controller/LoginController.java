@@ -7,6 +7,7 @@ import com.technology_be.model.User;
 import com.technology_be.repository.RoleRepository;
 import com.technology_be.service.ProvinceService;
 import com.technology_be.service.UserService;
+import com.technology_be.ultil.EncrypPasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,10 +67,11 @@ public class LoginController {
 
                 /* Set value for user */
                 user.setEmail(userRegisterDTO.getEmail());
-                user.setPassword(userRegisterDTO.getPassword());
+                user.setPassword(EncrypPasswordUtils.EncrypPasswordUtils(userRegisterDTO.getPassword()));
                 user.setProvince(province);
                 user.setName(userRegisterDTO.getFullName());
                 user.setCreateAt(LocalDate.now());
+
 
                 /* Set authorization for user */
                 Set<Role> roles = new HashSet<>();

@@ -1,5 +1,7 @@
 package com.technology_be.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -11,14 +13,15 @@ public class Role {
 
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "user_role" , joinColumns = @JoinColumn(name = "user_id") ,
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<User> users;
 
     public Role() {}
 
-    public Role(String name) {}
+    public Role(String name) {
+        this.name = name;
+    }
 
     public int getId() {
         return id;

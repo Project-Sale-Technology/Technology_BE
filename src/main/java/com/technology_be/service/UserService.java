@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -22,6 +23,11 @@ public class UserService implements UserDetailsService {
     /* Save User */
     public User saveUser(User user) {
         return this.userRepository.save(user);
+    }
+
+    /* Get user by email */
+    public User getUserByEmail(String email) {
+        return this.userRepository.findByEmail(email);
     }
 
     @Override

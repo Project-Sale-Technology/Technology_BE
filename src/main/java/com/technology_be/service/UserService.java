@@ -30,6 +30,11 @@ public class UserService implements UserDetailsService {
         return this.userRepository.findByEmail(email);
     }
 
+    /* Get user by email and password */
+    public User getUserByEmailAndPassword(String email , String password){
+        return this.userRepository.getUserByEmailAndPassword(email , password);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);

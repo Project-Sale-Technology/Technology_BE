@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/**" , "/login" , "/register").permitAll()
+                .authorizeRequests().antMatchers("/**" , "/account/**" ,"/login" , "/register").permitAll()
                 //Cấu hình cho các đường dẫn đăng nhập bằng Role là Member, Admin
                 .antMatchers("/user/**").hasAnyRole("MEMBER", "ADMIN")
                 //cấu hình cho đường dẫn admin, chỉ có Role admin mới vào được

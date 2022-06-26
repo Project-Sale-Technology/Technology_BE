@@ -35,12 +35,13 @@ public class UserService implements UserDetailsService {
         return this.userRepository.getUserByEmailAndPassword(email , password);
     }
 
+    /* Check user */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
 
         if (user == null) {
-            throw new UsernameNotFoundException("user not found");
+            throw new UsernameNotFoundException("User not found");
         }
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();

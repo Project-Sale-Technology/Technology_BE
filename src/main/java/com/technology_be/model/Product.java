@@ -19,6 +19,8 @@ public class Product {
 
     private boolean status;
 
+    private String image;
+
     @ManyToOne
     @JoinColumn(name = "promotion_id" , nullable = true)
     private Promotion promotion;
@@ -39,6 +41,14 @@ public class Product {
 
     public Long getId() {
         return id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void setId(Long id) {

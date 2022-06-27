@@ -20,6 +20,7 @@ public class User {
     private LocalDate createAt;
     private LocalDate updateAt;
     private String password;
+    private String resetPasswordToken;
 
     @ManyToMany
     @JoinTable(
@@ -42,6 +43,14 @@ public class User {
     private Set<Feedback> feedbacks;
 
     public User() {}
+
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
 
     public Long getId() {
         return id;

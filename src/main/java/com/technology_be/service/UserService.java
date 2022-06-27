@@ -3,6 +3,7 @@ package com.technology_be.service;
 import com.technology_be.model.Role;
 import com.technology_be.model.User;
 import com.technology_be.repository.UserRepository;
+import com.technology_be.ultil.EncrypPasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,6 +34,31 @@ public class UserService implements UserDetailsService {
     /* Get user by email and password */
     public User getUserByEmailAndPassword(String email , String password){
         return this.userRepository.getUserByEmailAndPassword(email , password);
+    }
+
+    /* set password token for user */
+    public User setPasswordToken(String token , String email) {
+        User user = userRepository.findByEmail(email);
+        if(user!=null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+            return user;
+        } else {
+            return null;
+        }
+    }
+
+    /* Get user by token password */
+    public User getUserByPasswordToken(String token) {
+        return this.userRepository.findUserByResetPasswordToken(token);
+    }
+
+    /* Update password */
+    public User updatePassword(User user , String newPassword) {
+        user.setPassword(EncrypPasswordUtils.EncrypPasswordUtils(newPassword));
+        /* Remove token password */
+        user.setResetPasswordToken(null);
+        return userRepository.save(user);
     }
 
     /* Check user */

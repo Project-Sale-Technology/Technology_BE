@@ -37,14 +37,13 @@ public class UserService implements UserDetailsService {
     }
 
     /* set password token for user */
-    public User setPasswordToken(String token , String email) {
+    public void setPasswordToken(String token , String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
         if(user!=null) {
             user.setResetPasswordToken(token);
             userRepository.save(user);
-            return user;
         } else {
-            return null;
+            throw new UsernameNotFoundException("Error: We cannot find your account registered:" + email);
         }
     }
 

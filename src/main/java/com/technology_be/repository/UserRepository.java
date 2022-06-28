@@ -14,4 +14,8 @@ public interface UserRepository extends JpaRepository<User , Long> {
 
     @Query(value = "select * from `users` where `users`.email=?1 and `users`.password=?2", nativeQuery=true)
     User getUserByEmailAndPassword(String email , String password);
+
+    /* Find user by reset token */
+    @Query(value = "select * from `users` where resetPasswordToken=?1" , nativeQuery=true)
+    User findUserByResetPasswordToken(String token);
 }

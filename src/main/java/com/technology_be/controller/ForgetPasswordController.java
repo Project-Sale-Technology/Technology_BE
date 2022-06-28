@@ -32,7 +32,7 @@ public class ForgetPasswordController {
         message.addHeader("format", "flowed");
         message.addHeader("Content-Transfer-Encoding", "8bit");
         /* Create form */
-        messageHelper.setFrom("gridshop.admin@gmail.com", "A0721i1 group- Coffee shop");
+        messageHelper.setFrom("nguyenhanhtuan1206@gmail.com", "GridShop - Sale Technology");
         messageHelper.setTo(email);
 
         String subject = "Here's the link to reset your password";

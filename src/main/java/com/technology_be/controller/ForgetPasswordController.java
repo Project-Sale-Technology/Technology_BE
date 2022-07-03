@@ -32,17 +32,18 @@ public class ForgetPasswordController {
         message.addHeader("format", "flowed");
         message.addHeader("Content-Transfer-Encoding", "8bit");
         /* Create form */
-        messageHelper.setFrom("nguyenhanhtuan1206@gmail.com", "GridShop - Sale Technology");
+        messageHelper.setFrom("gridshopvn@gmail.com", "GridShop - Technology Park");
         messageHelper.setTo(email);
 
         String subject = "Here's the link to reset your password";
-        String content = "<p>Hello,</p>"
+        String content = "<h3>Dear Customer,</p>"
                 + "<p>You have requested to reset your password.</p>"
                 + "<p>Click the link below to change your password:</p>"
                 + "<p><a href=\"" + linkResetPassword + "\">Change my password</a></p>"
                 + "<br>"
                 + "<p>Ignore this email if you do remember your password, "
-                + "or you have not made the request.</p>";
+                + "or you have not made the request.</p>" +
+                "Thank you for using our service";
 
         messageHelper.setSubject(subject);
         messageHelper.setText(content, true);

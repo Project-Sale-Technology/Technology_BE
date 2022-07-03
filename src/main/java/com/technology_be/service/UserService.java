@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -36,7 +37,7 @@ public class UserService implements UserDetailsService {
         return this.userRepository.getUserByEmailAndPassword(email , password);
     }
 
-    /* set password token for user */
+    /* Set password token for user */
     public void setPasswordToken(String token , String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
         if(user!=null) {
@@ -50,6 +51,17 @@ public class UserService implements UserDetailsService {
     /* Get user by token password */
     public User getUserByPasswordToken(String token) {
         return this.userRepository.findUserByResetPasswordToken(token);
+    }
+
+    /* Get user previously used password by token reset pwd */
+    public User checkPsdUsed(String token , String newPassword) {
+        User user = getUserByPasswordToken(token);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        if(encoder.matches(newPassword , user.getPassword())) {
+            return user;
+        }
+        return null;
     }
 
     /* Update password */

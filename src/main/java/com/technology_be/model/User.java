@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -18,7 +19,7 @@ public class User {
     private String email;
     private String address;
     private LocalDate createAt;
-    private LocalDate updateAt;
+    private LocalDateTime updateAt;
     private String password;
     private String resetPasswordToken;
 
@@ -100,11 +101,11 @@ public class User {
         this.createAt = createAt;
     }
 
-    public LocalDate getUpdateAt() {
+    public LocalDateTime getUpdateAt() {
         return updateAt;
     }
 
-    public void setUpdateAt(LocalDate updateAt) {
+    public void setUpdateAt(LocalDateTime updateAt) {
         this.updateAt = updateAt;
     }
 

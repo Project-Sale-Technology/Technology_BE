@@ -12,8 +12,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RestController
@@ -39,14 +40,31 @@ public class ForgetPasswordController {
         messageHelper.setTo(email);
 
         String subject = "Here's the link to reset your password";
-        String content = "<h3>Dear Customer,</p>"
-                + "<p>You have requested to reset your password.</p>"
-                + "<p>Click the link below to change your password:</p>"
-                + "<p><a href=\"" + linkResetPassword + "\">Change my password</a></p>"
-                + "<br>"
-                + "<p>Ignore this email if you do remember your password, "
-                + "or you have not made the request.</p>" +
-                "Thank you for using our service";
+        String content = "<body style=\"padding: 0;margin: 0;\">" +
+                "    <div style=\"width: 600px;" +
+                "    display: flex;" +
+                "    justify-content: center;" +
+                "    margin: auto;" +
+                "    flex-direction: column;\">" +
+                "        <div style=\"padding: 20px;border: 1px solid #dadada;\">" +
+                "            <p style=\"font-size: 16px;color: #000;\">Greetings, Tuan</p>" +
+                "            <p style=\"font-size: 16px;color: #000;\">We received a request to reset your password.<br>Click the button" +
+                "                below to setup a new password</p>" +
+                "" +
+                "            <a href=\"" + linkResetPassword + "\" style=\"padding: 8px;display: inline-block;cursor: pointer; border-radius: 3px;" +
+                "            font-size: 15px;text-decoration: none;background-color: #0167f3;color: #fff;font-weight: 500;\">Change" +
+                "                my password</a>" +
+                "" +
+                "            <p>This link will expire after 10 minutes. If you didn't request a password reset , ingnore this email and continue using your current password." +
+                "            <br>" +
+                "            Thank you for using our service.<br>" +
+                "            <br>If you have any question, Please contact us immediately at <a href=\"mailto:gridshopvn@gmail.com@gmail.com\">gridshopvn@gmail.com</a>" +
+                "            </p>" +
+                "            <p>Thanks you.</p>" +
+                "            <p>Grid Shop Team.</p>" +
+                "        </div>" +
+                "    </div>" +
+                "</body>";
 
         messageHelper.setSubject(subject);
         messageHelper.setText(content, true);
@@ -57,12 +75,13 @@ public class ForgetPasswordController {
 
     /* Process send to email */
     @RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
-    public ResponseEntity<String> processForgotPassword(@RequestBody String email) {
+    public ResponseEntity<String> processForgotPassword(@RequestBody String email , HttpServletResponse response) {
         String message = "";
         String emailCon = email;
 
         /* Create token */
         String token = RandomString.make(45);
+
         try {
             /* Check account */
             userService.setPasswordToken(token, emailCon);
@@ -85,8 +104,8 @@ public class ForgetPasswordController {
 
     /* Handle reset password */
     @RequestMapping(value = "/reset-password" , method = RequestMethod.PATCH)
-    public ResponseEntity<User> handleResetPassword(@RequestParam(value = "token" , required = false) String resetToken ,
-                                                    @RequestParam(value = "password" , required = false) String password) {
+    public ResponseEntity<User> handleResetPassword(@RequestParam(value = "token") String resetToken ,
+                                                    @RequestParam(value = "password") String password) {
         String message = "";
         String token = resetToken;
         String newPassword = password;
@@ -117,7 +136,7 @@ public class ForgetPasswordController {
         return new ResponseEntity<>(user , HttpStatus.OK);
     }
 
-    /* Get previously used password by token reset pwd */
+    /* Get previously used password by token reset pwd*/
     @RequestMapping(value = "/reset-password/check-password" , method = RequestMethod.GET)
     public ResponseEntity<User> checkPasswordUsedBefore(@RequestParam(value = "token" , required = false) String token
     ,@RequestParam(value = "password" , required = false) String newPassword) {

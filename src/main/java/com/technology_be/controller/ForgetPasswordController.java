@@ -39,6 +39,9 @@ public class ForgetPasswordController {
         messageHelper.setFrom("gridshopvn@gmail.com", "GridShop - Technology Park");
         messageHelper.setTo(email);
 
+        /* Get user by email */
+        User user = userService.getUserByEmail(email);
+
         String subject = "Here's the link to reset your password";
         String content = "<body style=\"padding: 0;margin: 0;\">" +
                 "    <div style=\"width: 600px;" +
@@ -47,7 +50,7 @@ public class ForgetPasswordController {
                 "    margin: auto;" +
                 "    flex-direction: column;\">" +
                 "        <div style=\"padding: 20px;border: 1px solid #dadada;\">" +
-                "            <p style=\"font-size: 16px;color: #000;\">Greetings, Tuan</p>" +
+                "            <p style=\"font-size: 16px;color: #000;\">Greetings, \""+ user.getName() + "\"</p>" +
                 "            <p style=\"font-size: 16px;color: #000;\">We received a request to reset your password.<br>Click the button" +
                 "                below to setup a new password</p>" +
                 "" +

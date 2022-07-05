@@ -40,6 +40,7 @@ public class RegisterController {
     public ResponseEntity<UserRegisterDTO> handleRegister(@Valid @RequestBody UserRegisterDTO userRegisterDTO
             , BindingResult bindingResult) {
         User user = new User();
+        User userCreated;
 
         /* Check error registration form */
         if (bindingResult.hasErrors()) {
@@ -59,7 +60,6 @@ public class RegisterController {
                 user.setName(userRegisterDTO.getFullName());
                 user.setCreateAt(LocalDate.now());
 
-
                 /* Set authorization for user */
                 Set<Role> roles = new HashSet<>();
                 Role role = roleRepository.findByName("ROLE_MEMBER");
@@ -67,8 +67,11 @@ public class RegisterController {
                 user.setRoles(roles);
 
                 /* Save user */
-                userService.saveUser(user);
-                return new ResponseEntity<>(HttpStatus.OK);
+                userCreated = userService.saveUser(user);
+
+                /* Set id for user */
+                userRegisterDTO.setId(userCreated.getId());
+                return new ResponseEntity<>(userRegisterDTO , HttpStatus.OK);
             }
         }
     }

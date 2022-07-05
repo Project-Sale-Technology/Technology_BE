@@ -7,6 +7,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 public class UserRegisterDTO {
+    private Long id;
+
     @NotEmpty
     @Length(min = 4, max = 50, message = "Username must be between 4 and 50")
     private String fullName;
@@ -31,6 +33,14 @@ public class UserRegisterDTO {
     private Long province;
 
     public UserRegisterDTO() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFullName() {

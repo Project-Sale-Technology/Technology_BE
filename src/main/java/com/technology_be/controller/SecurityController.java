@@ -14,6 +14,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @CrossOrigin("http://localhost:4200/")
 @RequestMapping(value = "/account")
@@ -40,7 +42,7 @@ public class SecurityController {
         /* Check login user */
         User user = userService.getUserByEmail(authenticationRequest.getEmail());
 
-        return ResponseEntity.ok(new JwtResponse(token, user.getId(), user.getEmail(), user.getRoles() , user.getName()));
+        return ResponseEntity.ok(new JwtResponse(token, user.getId(), user.getEmail(), user.getRoles() , user.getName() , LocalDate.now()));
     }
 
     private void authenticate(String username, String password) throws Exception {

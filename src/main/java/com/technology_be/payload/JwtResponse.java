@@ -2,6 +2,7 @@ package com.technology_be.payload;
 
 import com.technology_be.model.Role;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 public class JwtResponse {
@@ -10,18 +11,28 @@ public class JwtResponse {
     private Long id;
     private String email;
     private String name;
+    private LocalDate loginTime;
     private Set<Role> roles;
 
     public JwtResponse(String token) {
         this.token = token;
     }
 
-    public JwtResponse(String accessToken, Long id, String email, Set<Role> roles, String name) {
+    public JwtResponse(String accessToken, Long id, String email, Set<Role> roles, String name , LocalDate loginTime) {
         this.token = accessToken;
         this.id = id;
         this.email = email;
         this.roles = roles;
         this.name = name;
+        this.loginTime = loginTime;
+    }
+
+    public LocalDate getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(LocalDate loginTime) {
+        this.loginTime = loginTime;
     }
 
     public String getEmail() {
